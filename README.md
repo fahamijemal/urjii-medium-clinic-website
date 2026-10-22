@@ -33,8 +33,16 @@ Confirm registered spelling (Urjii/Urji), proposed tagline, founder biography an
 
 ## Scope and next steps
 
-This release includes home, about, services, team/founder, branch overview/detail, journal, community, contact and four policy pages in all three languages. Unpopulated sections have honest empty states. Advanced article table of contents, per-profile staff branch filters, image galleries, CMS-driven global settings and article sharing controls are future enhancements. Search/filter behavior should also be tested with real reviewed CMS documents before launch. No Lighthouse score is claimed without measurement.
+This release includes home, about, services, team/founder, branch overview/detail, journal, community, contact and four policy pages in all three languages. Unpopulated sections have honest empty states. Article pages now include a heading-based table of contents, word-based reading-time estimate, review panel, source list, native sharing/copy-link controls and related articles. Staff listings support branch filters, including people assigned to both locations. Image galleries and CMS-driven global settings remain future enhancements. Search/filter behavior should also be tested with real reviewed CMS documents before launch. No Lighthouse score is claimed without measurement.
 
 ## Validation recorded in this workspace
 
 Production static export and strict TypeScript checks pass. Four static-export tests verify representative routes, language attributes, JSON-LD, internal destinations and safe prelaunch indexing. Browser validation uses the actual Chromium-rendered export at 320, 390, 768 and 1440 pixels for the home, branch, founder and journal in all three languages, plus mobile menu navigation. No horizontal overflow or uncaught page errors were observed. Run `npm run test:browser` with the export server on port 3000 to repeat it. No live Sanity dataset, public deployment, formal WCAG audit or Lighthouse scoring has been verified.
+
+## Visitor experience improvements
+
+Sticky navigation retains the active section on detail pages; the mobile disclosure supports Escape to close and returns focus to its toggle. A direct mobile contact link and localized menu/skip labels improve navigation. Home/contact/branch pages include keyboard-operable, translated visit FAQs. Branch pages separate location, pre-visit and contact guidance. Empty catalog pages omit inactive search controls; populated lists provide result counts, clear/reset behavior, trimmed case-insensitive search and category or staff-branch filters. Public staff queries also enforce consent confirmation.
+
+`npm run test:interactions` bundles an isolated synthetic fixture and tests staff search, branch filters, shared assignments, reset, article section links and absolute clipboard sharing in Chromium. Synthetic content never enters the public export or CMS. This does not replace live Sanity integration validation.
+
+`npm run test:a11y` runs axe's WCAG A/AA rules against the home, Qollo Sirrii branch and journal in all three languages at 390px and 1440px. The current run reports no automated violations. Contrast fixes cover muted text, section labels, numbered steps and footer text. This limited automated result is not a full WCAG conformance claim; native-language review, assistive-technology testing and live CMS-content checks remain necessary.

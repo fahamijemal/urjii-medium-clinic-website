@@ -11,7 +11,12 @@ for(const width of [320,390,768,1440]){
    assert.ok(size.scroll<=size.width,`${lang}/${route} overflow at ${width}`);assert.equal(size.headings,1);assert.equal(size.lang,lang);
   }
  }
- if(width===390){await page.goto('http://127.0.0.1:3000/en/');await page.getByRole('button',{name:'Open menu'}).click();await page.getByRole('navigation',{name:'Main'}).getByRole('link',{name:'Our branches'}).click();await page.waitForURL('**/en/branches/');}
+ if(width===390){await page.goto('http://127.0.0.1:3000/en/');await page.getByRole('button',{name:'Open menu'}).click();await page.getByRole('navigation',{name:'Main'}).getByRole('link',{name:'Our branches'}).click();await page.waitForURL('**/en/branches/');
+ await page.getByRole('button',{name:'Open menu'}).click();await page.keyboard.press('Escape');assert.equal(await page.getByRole('button',{name:'Open menu'}).getAttribute('aria-expanded'),'false');
+ await page.getByRole('button',{name:'Open menu'}).click();await page.getByRole('navigation',{name:'Main'}).getByRole('link',{name:'Contact us'}).click();await page.waitForURL('**/en/contact/');
+ const faq=page.locator('details').first();await faq.locator('summary').focus();await page.keyboard.press('Enter');assert.equal(await faq.getAttribute('open'),'');
+ await page.keyboard.press('Enter');assert.equal(await faq.getAttribute('open'),null);
+ }
  console.log(`PASS ${width}px: home, branch, founder, blog in three languages`);
 }
 assert.deepEqual(errors,[]);await browser.close();
