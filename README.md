@@ -50,3 +50,7 @@ Sticky navigation retains the active section on detail pages; the mobile disclos
 ## Cloudflare Workers static-assets deployment
 
 The existing Cloudflare project uses Workers Builds. It can host this static export without a runtime Next.js adapter. The checked-in `wrangler.jsonc` supplies the exact Worker name, compatibility date, static output directory, trailing-slash handling and real 404 behavior. Use build command `npm run build` and deploy command `npx wrangler deploy` (the existing `npx wrangler deploy --assets=./out` also uses this configuration). A push to `main` should trigger the connected build. After deployment, set `NEXT_PUBLIC_SITE_URL` to the actual HTTPS production origin in build variables and rebuild to enable production SEO.
+
+## Owner-confirmed contact and services
+
+Both Qollo Sirrii and Yabeelloo use 0961 548 101 (+251 961 548 101), operate 24 hours, and provide consultation, testing, treatment and medicine provision, as confirmed by the owner. These facts are centralized in `src/lib/clinic.ts`. Specific test panels, medicines, emergency capability and specialties are not asserted. Abdi Jibril is confirmed as a Health Officer; the previously supplied full founder name remains Abdii Jibriil Muussaa. Exact map pins, staff photos and additional team profiles still need clinic approval.
