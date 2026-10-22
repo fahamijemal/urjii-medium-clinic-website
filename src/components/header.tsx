@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowUpRight, Plus, ChevronDown } from 'lucide-react';
+import { Menu, X, ArrowUpRight, ChevronDown } from 'lucide-react';
 import { copy, type Locale } from '@/lib/content';
 
 export function Logo() {
-  return <><span className="brand-mark"><Plus strokeWidth={2.5}/><span>✦</span></span><span className="brand-word">URJII<small>MEDIUM CLINIC</small></span></>;
+  return <><img className="brand-logo" src="/logo.jpg" alt="Urji Medium Clinic logo" width={64} height={64}/><span className="brand-word">URJII<small>MEDIUM CLINIC</small></span></>;
 }
 
 export default function Header({ locale, dynamicPage = false }: { locale: Locale; dynamicPage?: boolean }) {
