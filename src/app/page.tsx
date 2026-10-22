@@ -1,3 +1,53 @@
-import Link from 'next/link';
-export const metadata={title:'Urjii Medium Clinic | Choose your language',robots:{index:false,follow:true}};
-export default function Page(){return <html lang="om"><body><main className="language-entry"><div className="container page-content"><span className="eyebrow">URJII MEDIUM CLINIC</span><h1 style={{fontSize:56,margin:'30px 0'}}>Baga nagaan dhuftaan.</h1><p>Afaan filadhaa · Choose your language · ቋንቋ ይምረጡ</p><div className="hero-buttons"><Link className="button" href="/om/" lang="om">Afaan Oromoo →</Link><Link className="button secondary" href="/am/" lang="am">አማርኛ →</Link><Link className="button secondary" href="/en/" lang="en">English →</Link></div></div></main></body></html>}
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+export const metadata = {
+  title: "Urjii Medium Clinic | Choose your language",
+  robots: { index: false, follow: true },
+};
+export default function Page() {
+  return (
+    <html lang="om">
+      <body>
+        <main className="language-entry">
+          <div className="container">
+            <div className="language-panel">
+              <img
+                src="/logo.jpg"
+                alt="Asxaa Kiliinika Urjii"
+                width={88}
+                height={88}
+              />
+              <span className="eyebrow">KILIINIKA GIDDU-GALEESSA URJII</span>
+              <h1>Baga nagaan dhuftaan.</h1>
+              <p>
+                <span lang="om">Afaan filadhaa</span> ·{" "}
+                <span lang="am">ቋንቋ ይምረጡ</span> ·{" "}
+                <span lang="en">Choose your language</span>
+              </p>
+              <div className="language-options">
+                <Link href="/om/" lang="om">
+                  <span>
+                    Afaan Oromoo<small>Gara marsariitii keenyaatti</small>
+                  </span>
+                  <ArrowUpRight size={20} />
+                </Link>
+                <Link href="/am/" lang="am">
+                  <span>
+                    አማርኛ<small>ወደ ድረ ገጻችን ይግቡ</small>
+                  </span>
+                  <ArrowUpRight size={20} />
+                </Link>
+                <Link href="/en/" lang="en">
+                  <span>
+                    English<small>Visit our website</small>
+                  </span>
+                  <ArrowUpRight size={20} />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </main>
+      </body>
+    </html>
+  );
+}

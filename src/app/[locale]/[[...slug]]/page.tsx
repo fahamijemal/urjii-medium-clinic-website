@@ -1,11 +1,169 @@
-import type {Metadata} from 'next';
-import {notFound} from 'next/navigation';
-import Site from '@/components/site';
-import {locales,routes,copy,branches,siteUrl,type Locale} from '@/lib/content';
-import {getContent} from '@/lib/cms';
-import {clinic,branchContacts} from '@/lib/clinic';
-type Props={params:Promise<{locale:string;slug?:string[]}>};
-export const dynamicParams=false;
-export async function generateStaticParams(){const result=[];for(const locale of locales){for(const r of routes)result.push({locale,slug:r?r.split('/'):[]});const content=await getContent(locale);for(const c of content)result.push({locale,slug:[c._type==='article'?'blog':c._type==='staff'?'team':c._type==='activity'?'community':'services',c.slug]});}return result;}
-export async function generateMetadata({params}:Props):Promise<Metadata>{const {locale,slug=[]}=await params;if(!locales.includes(locale as Locale))return {};const l=locale as Locale,t=copy[l],s=slug.join('/');const branch=branches.find(b=>s===`branches/${b.slug}`);const content=await getContent(l);const item=content.find(c=>c.slug===slug[1]);const names:Record<string,string>={'':t.name,about:t.nav[1],services:t.nav[2],branches:t.nav[3],blog:t.nav[4],team:t.team,contact:t.contact,community:t.community,privacy:t.policy[0],'editorial-policy':t.policy[1],'medical-disclaimer':t.policy[2],accessibility:t.policy[3]};const title=branch?.name||item?.title||(s.startsWith('team/')?'Abdii Jibriil Muussaa':names[s])||t.name;const path=`/${l}/${s?s+'/':''}`;return {title:s?`${title} | ${t.name}`:t.name,description:branch?`${branch.name} — ${branch.address}. ${t.hours}`:item?.summary||t.intro,robots:{index:!!siteUrl,follow:true},...(siteUrl?{metadataBase:new URL(siteUrl),alternates:{canonical:path,languages:Object.fromEntries((routes.includes(s)?locales:[l]).map(loc=>[loc,`${siteUrl}/${loc}/${s?s+'/':''}`]))},openGraph:{title,description:t.intro,url:path,type:'website',images:[branch?.photo?{url:branch.photo,width:1226,height:1280,alt:'Urjii Medium Clinic — Qollo Sirrii'}:{url:'/logo.jpg',width:1024,height:1024,alt:'Urjii Medium Clinic'}]}}:{})};}
-export default async function Page({params}:Props){const {locale,slug=[]}=await params;if(!locales.includes(locale as Locale))notFound();const l=locale as Locale,s=slug.join('/'),content=await getContent(l);const custom=content.some(c=>`${c._type==='article'?'blog':c._type==='staff'?'team':c._type==='activity'?'community':'services'}/${c.slug}`===s);if(!routes.includes(s)&&!custom)notFound();const branch=branches.find(b=>s===`branches/${b.slug}`);const schema=branch?{'@context':'https://schema.org','@type':'MedicalClinic',name:`Urjii Medium Clinic — ${branch.name}`,telephone:clinic.telephone,contactPoint:(branchContacts[branch.slug]||[]).map(c=>({"@type":"ContactPoint",telephone:c.telephone,contactType:"clinic enquiries"})),openingHours:"Mo-Su 00:00-24:00",address:{'@type':'PostalAddress',streetAddress:branch.address,addressRegion:'Oromiyaa',addressCountry:'ET'}}:{'@context':'https://schema.org','@type':'Organization',name:'Urjii Medium Clinic',telephone:clinic.telephone,founder:{'@type':'Person',name:'Abdii Jibriil Muussaa',jobTitle:'Health Officer'},...(siteUrl?{url:siteUrl}:{})};return <html lang={l}><body><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema).replace(/</g,'\\u003c')}}/><Site locale={l} slug={s} content={content}/></body></html>;}
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Site from "@/components/site";
+import {
+  locales,
+  routes,
+  copy,
+  branches,
+  siteUrl,
+  type Locale,
+} from "@/lib/content";
+import { branchText } from "@/lib/presentation";
+import { getContent } from "@/lib/cms";
+import { clinic, branchContacts } from "@/lib/clinic";
+type Props = { params: Promise<{ locale: string; slug?: string[] }> };
+export const dynamicParams = false;
+export async function generateStaticParams() {
+  const result = [];
+  for (const locale of locales) {
+    for (const r of routes)
+      result.push({ locale, slug: r ? r.split("/") : [] });
+    const content = await getContent(locale);
+    for (const c of content)
+      result.push({
+        locale,
+        slug: [
+          c._type === "article"
+            ? "blog"
+            : c._type === "staff"
+              ? "team"
+              : c._type === "activity"
+                ? "community"
+                : "services",
+          c.slug,
+        ],
+      });
+  }
+  return result;
+}
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug = [] } = await params;
+  if (!locales.includes(locale as Locale)) return {};
+  const l = locale as Locale,
+    t = copy[l],
+    s = slug.join("/");
+  const branch = branches.find((b) => s === `branches/${b.slug}`);
+  const content = await getContent(l);
+  const item = content.find((c) => c.slug === slug[1]);
+  const names: Record<string, string> = {
+    "": t.name,
+    about: t.nav[1],
+    services: t.nav[2],
+    branches: t.nav[3],
+    blog: t.nav[4],
+    team: t.team,
+    contact: t.contact,
+    community: t.community,
+    privacy: t.policy[0],
+    "editorial-policy": t.policy[1],
+    "medical-disclaimer": t.policy[2],
+    accessibility: t.policy[3],
+  };
+  const title =
+    (branch ? branchText(branch.slug, l).name : undefined) ||
+    item?.title ||
+    (s.startsWith("team/") ? "Abdii Jibriil Muussaa" : names[s]) ||
+    t.name;
+  const path = `/${l}/${s ? s + "/" : ""}`;
+  return {
+    title: s ? `${title} | ${t.name}` : t.name,
+    description: branch
+      ? `${branchText(branch.slug, l).name} — ${branchText(branch.slug, l).address}. ${t.hours}`
+      : item?.summary || t.intro,
+    robots: { index: !!siteUrl, follow: true },
+    ...(siteUrl
+      ? {
+          metadataBase: new URL(siteUrl),
+          alternates: {
+            canonical: path,
+            languages: Object.fromEntries(
+              (routes.includes(s) ? locales : [l]).map((loc) => [
+                loc,
+                `${siteUrl}/${loc}/${s ? s + "/" : ""}`,
+              ]),
+            ),
+          },
+          openGraph: {
+            title,
+            description: t.intro,
+            url: path,
+            type: "website",
+            images: [
+              branch?.photo
+                ? {
+                    url: branch.photo,
+                    width: 1226,
+                    height: 1280,
+                    alt: "Urjii Medium Clinic — Qollo Sirrii",
+                  }
+                : {
+                    url: "/logo.jpg",
+                    width: 1024,
+                    height: 1024,
+                    alt: "Urjii Medium Clinic",
+                  },
+            ],
+          },
+        }
+      : {}),
+  };
+}
+export default async function Page({ params }: Props) {
+  const { locale, slug = [] } = await params;
+  if (!locales.includes(locale as Locale)) notFound();
+  const l = locale as Locale,
+    s = slug.join("/"),
+    content = await getContent(l);
+  const custom = content.some(
+    (c) =>
+      `${c._type === "article" ? "blog" : c._type === "staff" ? "team" : c._type === "activity" ? "community" : "services"}/${c.slug}` ===
+      s,
+  );
+  if (!routes.includes(s) && !custom) notFound();
+  const branch = branches.find((b) => s === `branches/${b.slug}`);
+  const schema = branch
+    ? {
+        "@context": "https://schema.org",
+        "@type": "MedicalClinic",
+        name: `Urjii Medium Clinic — ${branch.name}`,
+        telephone: clinic.telephone,
+        contactPoint: (branchContacts[branch.slug] || []).map((c) => ({
+          "@type": "ContactPoint",
+          telephone: c.telephone,
+          contactType: "clinic enquiries",
+        })),
+        openingHours: "Mo-Su 00:00-24:00",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: branch.address,
+          addressRegion: "Oromiyaa",
+          addressCountry: "ET",
+        },
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "Urjii Medium Clinic",
+        telephone: clinic.telephone,
+        founder: {
+          "@type": "Person",
+          name: "Abdii Jibriil Muussaa",
+          jobTitle: "Health Officer",
+        },
+        ...(siteUrl ? { url: siteUrl } : {}),
+      };
+  return (
+    <html lang={l}>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
+          }}
+        />
+        <Site locale={l} slug={s} content={content} />
+      </body>
+    </html>
+  );
+}

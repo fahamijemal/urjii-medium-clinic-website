@@ -60,3 +60,9 @@ The owner identified and approved the founder photograph on 2026-10-22. The orig
 The clinic-provided Qollo Sirrii signboard/exterior photograph is preserved at `public/images/branches/qollo-sirrii.jpg` and used only for that branch’s cards, detail page and social metadata. Signboard text is not used to override the current owner-confirmed phone number or to add unconfirmed specialties.
 
 Additional owner-confirmed Qollo Sirrii contact numbers are 0913 575 829 (+251 913 575 829) and 0917 393 054 (+251 917 393 054). These appear on the contact and Qollo Sirrii branch pages only; the shared clinic phone remains 0961 548 101.
+
+## Translation and interface review
+
+The October 2026 review removes English interface labels from the Oromo and Amharic layouts, localizes branch addresses and location metadata, aligns service wording and policy notices, and centralizes shared location/interface labels in `src/lib/presentation.ts`. Proper names and the text embedded in original photographs/logos are retained. These are editorial revisions, not certified translations; native-language clinic reviewers should confirm local place-name transliterations, professional terminology and legal wording before treating them as final.
+
+The refreshed interface includes larger reading text, clearer spacing, rounded service/branch cards, a real founder introduction on the homepage, an explicit 24-hour badge, a redesigned language entry page and mobile call/location/contact shortcuts. Duplicate homepage visit content was removed. Reduced-motion and keyboard support remain enabled; mobile controls account for device safe areas.
