@@ -56,3 +56,5 @@ The existing Cloudflare project uses Workers Builds. It can host this static exp
 Both Qollo Sirrii and Yabeelloo use 0961 548 101 (+251 961 548 101), operate 24 hours, and provide consultation, testing, treatment and medicine provision, as confirmed by the owner. These facts are centralized in `src/lib/clinic.ts`. Specific test panels, medicines, emergency capability and specialties are not asserted. Abdi Jibril is confirmed as a Health Officer; the previously supplied full founder name remains Abdii Jibriil Muussaa. Exact map pins, staff photos and additional team profiles still need clinic approval.
 
 The owner identified and approved the founder photograph on 2026-10-22. The original file is preserved at `public/images/team/abdi-jibril.jpg` and displayed on the about, team and founder pages.
+
+The clinic-provided Qollo Sirrii signboard/exterior photograph is preserved at `public/images/branches/qollo-sirrii.jpg` and used only for that branch’s cards, detail page and social metadata. Signboard text is not used to override the current owner-confirmed phone number or to add unconfirmed specialties.
