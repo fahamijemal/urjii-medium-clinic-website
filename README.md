@@ -58,3 +58,5 @@ Both Qollo Sirrii and Yabeelloo use 0961 548 101 (+251 961 548 101), operate 24 
 The owner identified and approved the founder photograph on 2026-10-22. The original file is preserved at `public/images/team/abdi-jibril.jpg` and displayed on the about, team and founder pages.
 
 The clinic-provided Qollo Sirrii signboard/exterior photograph is preserved at `public/images/branches/qollo-sirrii.jpg` and used only for that branch’s cards, detail page and social metadata. Signboard text is not used to override the current owner-confirmed phone number or to add unconfirmed specialties.
+
+Additional owner-confirmed Qollo Sirrii contact numbers are 0913 575 829 (+251 913 575 829) and 0917 393 054 (+251 917 393 054). These appear on the contact and Qollo Sirrii branch pages only; the shared clinic phone remains 0961 548 101.
