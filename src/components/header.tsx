@@ -1,0 +1,8 @@
+'use client';
+import Link from 'next/link';
+import {useState} from 'react';
+import {usePathname} from 'next/navigation';
+import {Menu,X,ArrowUpRight,Plus,ChevronDown} from 'lucide-react';
+import {copy,type Locale} from '@/lib/content';
+export function Logo(){return <><span className="brand-mark"><Plus strokeWidth={2.5}/><span>✦</span></span><span className="brand-word">URJII<small>MEDIUM CLINIC</small></span></>}
+export default function Header({locale,dynamicPage=false}:{locale:Locale;dynamicPage?:boolean}){const [open,setOpen]=useState(false);const t=copy[locale];const path=usePathname();const items=['','about','services','branches','blog'];return <header><div className="container nav"><Link href={`/${locale}/`} className="brand" aria-label={t.name}><Logo/></Link><nav aria-label="Main" className={open?'nav-links open':'nav-links'}>{items.map((p,i)=><Link onClick={()=>setOpen(false)} className={path===`/${locale}${p?'/'+p:''}/`?'selected':''} key={p} href={`/${locale}/${p}${p?'/':''}`}>{t.nav[i]}</Link>)}</nav><div className="nav-actions"><div className="locale"><select aria-label={t.language} value={locale} onChange={e=>{window.location.href=dynamicPage?`/${e.target.value}/`:path.replace(/^\/(om|en|am)/,`/${e.target.value}`)}}><option value="om">Afaan Oromoo</option><option value="en">English</option><option value="am">አማርኛ</option></select><ChevronDown size={13}/></div><Link className="button nav-contact" href={`/${locale}/contact/`}>{t.contact}<ArrowUpRight size={16}/></Link><button className="menu" aria-label={open?'Close menu':'Open menu'} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button></div></div></header>}

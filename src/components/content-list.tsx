@@ -1,0 +1,7 @@
+'use client';
+import {useState} from 'react';
+import Link from 'next/link';
+import {ArrowUpRight,Search,BookOpen} from 'lucide-react';
+import type {PublicContent} from '@/lib/cms';
+import {copy,type Locale} from '@/lib/content';
+export default function ContentList({items,base,locale}:{items:PublicContent[];base:string;locale:Locale}){const [search,setSearch]=useState(''),[category,setCategory]=useState('');const t=copy[locale];const labels=locale==='om'?['Barbaadi','Ramaddii hunda']:locale==='am'?['ፈልግ','ሁሉም ምድቦች']:['Search','All categories'];const shown=items.filter(c=>(!category||c.category===category)&&`${c.title} ${c.summary||''}`.toLowerCase().includes(search.toLowerCase()));return <><div className="search-row"><label><Search size={18}/><input aria-label={labels[0]} placeholder={labels[0]} value={search} onChange={e=>setSearch(e.target.value)}/></label><select aria-label={labels[1]} value={category} onChange={e=>setCategory(e.target.value)}><option value="">{labels[1]}</option>{[...new Set(items.map(c=>c.category).filter(Boolean))].map(c=><option key={c}>{c}</option>)}</select></div>{shown.length?<div className="content-grid">{shown.map(c=><Link className="content-card" key={c._id} href={`${base}/${c.slug}/`}><span className="eyebrow">{c.category||t.name}</span><h2>{c.title}</h2><p>{c.summary}</p><ArrowUpRight/></Link>)}</div>:<div className="empty"><BookOpen/><h2>{items.length?labels[0]:t.soon}</h2><p>{items.length?(locale==='om'?'Bu’aan hin argamne.':locale==='am'?'ውጤት አልተገኘም።':'No matching results.'):t.empty}</p></div>}</>}

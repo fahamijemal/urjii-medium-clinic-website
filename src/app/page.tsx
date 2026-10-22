@@ -1,0 +1,3 @@
+import Link from 'next/link';
+export const metadata={title:'Urjii Medium Clinic | Choose your language',robots:{index:false,follow:true}};
+export default function Page(){return <html lang="om"><body><main className="language-entry"><div className="container page-content"><span className="eyebrow">URJII MEDIUM CLINIC</span><h1 style={{fontSize:56,margin:'30px 0'}}>Baga nagaan dhuftaan.</h1><p>Afaan filadhaa · Choose your language · ቋንቋ ይምረጡ</p><div className="hero-buttons"><Link className="button" href="/om/" lang="om">Afaan Oromoo →</Link><Link className="button secondary" href="/am/" lang="am">አማርኛ →</Link><Link className="button secondary" href="/en/" lang="en">English →</Link></div></div></main></body></html>}
