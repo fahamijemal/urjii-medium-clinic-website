@@ -46,3 +46,7 @@ Sticky navigation retains the active section on detail pages; the mobile disclos
 `npm run test:interactions` bundles an isolated synthetic fixture and tests staff search, branch filters, shared assignments, reset, article section links and absolute clipboard sharing in Chromium. Synthetic content never enters the public export or CMS. This does not replace live Sanity integration validation.
 
 `npm run test:a11y` runs axe's WCAG A/AA rules against the home, Qollo Sirrii branch and journal in all three languages at 390px and 1440px. The current run reports no automated violations. Contrast fixes cover muted text, section labels, numbered steps and footer text. This limited automated result is not a full WCAG conformance claim; native-language review, assistive-technology testing and live CMS-content checks remain necessary.
+
+## Cloudflare Workers static-assets deployment
+
+The existing Cloudflare project uses Workers Builds. It can host this static export without a runtime Next.js adapter. The checked-in `wrangler.jsonc` supplies the exact Worker name, compatibility date, static output directory, trailing-slash handling and real 404 behavior. Use build command `npm run build` and deploy command `npx wrangler deploy` (the existing `npx wrangler deploy --assets=./out` also uses this configuration). A push to `main` should trigger the connected build. After deployment, set `NEXT_PUBLIC_SITE_URL` to the actual HTTPS production origin in build variables and rebuild to enable production SEO.
