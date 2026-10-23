@@ -52,3 +52,11 @@ test("mobile shortcuts use the correct contact and localized routes", () => {
     assert.ok(nav.includes(`/${locale}/contact/`));
   }
 });
+
+test("root renders English directly without a language selection gate", () => {
+  const html = readFileSync("out/index.html", "utf8");
+  assert.match(html, /<html lang="en"/);
+  assert.ok(visible(html).includes("Your health,"));
+  assert.ok(!html.includes('class="language-options"'));
+  assert.match(html, /href="tel:\+251961548101"/);
+});

@@ -65,7 +65,9 @@ export default function Header({
             const href = `/${locale}/${p}${p ? "/" : ""}`;
             const active = p
               ? path.startsWith(`/${locale}/${p}/`)
-              : path === href || path === `/${locale}`;
+              : path === href ||
+                path === `/${locale}` ||
+                (locale === "en" && path === "/");
             return (
               <Link
                 onClick={() => setOpen(false)}
@@ -93,9 +95,10 @@ export default function Header({
               aria-label={t.language}
               value={locale}
               onChange={(e) => {
-                window.location.href = dynamicPage
-                  ? `/${e.target.value}/`
-                  : path.replace(/^\/(om|en|am)/, `/${e.target.value}`);
+                window.location.href =
+                  dynamicPage || path === "/"
+                    ? `/${e.target.value}/`
+                    : path.replace(/^\/(om|en|am)/, `/${e.target.value}`);
               }}
             >
               <option value="om">Afaan Oromoo</option>
